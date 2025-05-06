@@ -12,7 +12,7 @@ import nlp_differenciate_people as RedactReplace
 import spacy
 
 # Define paths
-base_path = "/Users/hamann/Documents/Uni/SoSe25/QU Project/Audio-Transcript-Anonymizer-TUB-AP" # *** change main path to the location of this file (get current path by typing 'pwd' into your terminal)
+base_path = "xxx" # *** change main path to the location of this file (get current path by typing 'pwd' into your terminal)
 videos_folder = os.path.join(base_path, "videos")
 audios_folder = os.path.join(base_path, "audios")
 transcripts_folder = os.path.join(base_path, "transcripts")
@@ -64,32 +64,27 @@ else:
 # 2. Transcribe audio
 if os.path.exists(audios_folder):
     print("Found 'audios' folder. Starting transcription process...")
+    # InputToTranscript.transcript_from_audio()
+    
+    #######################################
+    ###     DE-IDENTIFY TRANSCRIPTS     ###
+    #######################################
+    nlp = spacy.load('de_core_news_sm')
 
-    # get transcriptions from audio files though wisperX
-    transcript_file = InputToTranscript.transcript_from_audio()
-    if transcript_file:
-        print(f"Transcription saved: {transcript_file}")
-
-
-        #######################################
-        ###     DE-IDENTIFY TRANSCRIPTS     ###
-        #######################################
-        nlp = spacy.load('de_core_news_sm')
-
-        text = (
-            "Manchmal trifft sich Oskar mit Gunther in Sonnenbuehl. Oskar ist schon 9 Jahre alt. Gunther dagegen ist erst 7 Jahre."
-        )
+    for file in os.listdir(transcripts_folder):
+        file_path = os.path.join(transcripts_folder, file)
+        if os.path.isfile(file_path):
+            with open(file_path, 'r', encoding='utf-8') as f:
+                text = f.read()
         doc = nlp(text)
 
         names = RedactReplace.redact_names_in_doc(doc)
         ages = RedactReplace.redact_age_in_doc(names)
 
-        print(ages)  
-
-
-
-    else:
-        print("Error occured while generating transcript from audio file")
+        # Save the anonymized text to a new file
+        anonymized_file_path = os.path.join(annonym_folder, os.path.splitext(file)[0] + "_anonymized.txt")
+        with open(anonymized_file_path, 'w', encoding='utf-8') as f:
+            f.write(str(ages))
+        print(f"Anonymized transcript saved: {anonymized_file_path}")
 else:
     print("No 'audios' folder found. No files to transcribe.")
-

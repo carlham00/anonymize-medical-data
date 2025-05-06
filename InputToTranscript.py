@@ -68,7 +68,7 @@ def transcript_from_audio():
             # import gc; gc.collect(); torch.cuda.empty_cache(); del model_a
 
             # Diarization & assign speaker labels
-            diarize_model = whisperx.DiarizationPipeline(use_auth_token="xxx", device=device)
+            diarize_model = whisperx.diarize.DiarizationPipeline(use_auth_token="xxx", device=device)
             diarize_segments = diarize_model(audio, min_speakers=min_speakers, max_speakers=max_speakers) #add min/max number of speakers if known
             
             result = whisperx.assign_word_speakers(diarize_segments, result) # segments are now assigned speaker IDs
@@ -84,6 +84,6 @@ def transcript_from_audio():
                     text = segment["text"]
                     f.write(f"{speaker}: {text}\n")
 
-            return transcript_file
+            print(f"Transcript saved to: {transcript_file}")
         
-    return None
+    return 0

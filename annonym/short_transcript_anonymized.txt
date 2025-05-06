@@ -1,0 +1,1 @@
+SPEAKER_00 :  Manchmal  trifft  sich  [REDACTED_NAME01]  mit  [REDACTED_NAME02]  in  Sonnenbuehl .  [REDACTED_NAME00]  ist  schon  [REDACTED_AGE]  Jahre  alt .  [REDACTED_NAME01]  dagegen  ist  erst  [REDACTED_AGE]  Jahre .
