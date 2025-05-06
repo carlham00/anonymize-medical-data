@@ -1,1 +1,1 @@
-# anonymize-medical-data
+# Anonymize medical data pipeline
