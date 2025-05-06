@@ -35,7 +35,7 @@ def merge_consecutive_speaker_segments(segments):
 
 
 # Define paths
-base_path = "/home/ubuntu/pipeline" # *** change main path to the location of this file (get current path by typing 'pwd' into your terminal)
+base_path = "/Users/hamann/Documents/Uni/SoSe25/QU Project/Audio-Transcript-Anonymizer-TUB-AP" # *** change main path to the location of this file (get current path by typing 'pwd' into your terminal)
 videos_folder = os.path.join(base_path, "videos")
 audios_folder = os.path.join(base_path, "audios")
 transcripts_folder = os.path.join(base_path, "transcripts")
@@ -98,7 +98,7 @@ if os.path.exists(audios_folder):
     model = whisperx.load_model("large-v2", device, compute_type=compute_type, download_root=model_folder)
 
     # *** min & max number of speakers in the audio
-    min_speakers = 2
+    min_speakers = 1
     max_speakers = 4
 
     for file in os.listdir(audios_folder):
@@ -125,7 +125,7 @@ if os.path.exists(audios_folder):
             # import gc; gc.collect(); torch.cuda.empty_cache(); del model_a
 
             # Diarization & assign speaker labels
-            diarize_model = whisperx.DiarizationPipeline(use_auth_token="xxx", device=device)
+            diarize_model = whisperx.DiarizationPipeline(use_auth_token="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", device=device)
             diarize_segments = diarize_model(audio, min_speakers=min_speakers, max_speakers=max_speakers) #add min/max number of speakers if known
             
             result = whisperx.assign_word_speakers(diarize_segments, result) # segments are now assigned speaker IDs
@@ -145,7 +145,6 @@ if os.path.exists(audios_folder):
 
 
             # anonymized_file = os.path.join(annonym_folder, os.path.basename(transcript_file))
-
 
             # command = [
             #     "python", "-m", "philter_ucsf",
