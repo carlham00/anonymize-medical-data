@@ -35,7 +35,7 @@ def merge_consecutive_speaker_segments(segments):
 
 
 # Define paths
-base_path = "/home/brendan/git/Audio-Transcript-Anonymizer-TUB-AP" # *** change main path to the location of this file (get current path by typing 'pwd' into your terminal)
+base_path = "/home/brendan/git/anonymize-medical-data" # *** change main path to the location of this file (get current path by typing 'pwd' into your terminal)
 videos_folder = os.path.join(base_path, "videos")
 audios_folder = os.path.join(base_path, "audios")
 transcripts_folder = os.path.join(base_path, "transcripts")
@@ -125,7 +125,7 @@ if os.path.exists(audios_folder):
             # import gc; gc.collect(); torch.cuda.empty_cache(); del model_a
 
             # Diarization & assign speaker labels
-            diarize_model = whisperx.DiarizationPipeline(use_auth_token="", device=device)
+            diarize_model = whisperx.diarize.DiarizationPipeline(use_auth_token="", device=device)
             diarize_segments = diarize_model(audio, min_speakers=min_speakers, max_speakers=max_speakers) #add min/max number of speakers if known
 
             result = whisperx.assign_word_speakers(diarize_segments, result) # segments are now assigned speaker IDs
